@@ -11,23 +11,25 @@ int get_last_digit(int number);
 int main(void)
 {
 
-	int number, last_digit;
+	int n, last_digit;
 
 	srand(time(0));
-	number = rand() - RAND_MAX/2;
-	last_digit = get_last_digit(number);
-	
+	n = rand() - RAND_MAX / 2;
+	last_digit = get_last_digit(n);
+
 	if (last_digit > 5)
 	{
-		printf("Last digit of %d is %d and is greater than 5\n", number, last_digit);
+		printf("Last digit of %d is %d and is greater than 5\n",
+			n, last_digit);
 	}
 	else if (last_digit < 6 && last_digit != 0)
 	{
-		printf("Last digit of %d is %d and is less than 6 and not 0\n", number, last_digit);
+		printf("Last digit of %d is %d and is less than 6 and not 0\n",
+			n, last_digit);
 	}
-	else 
+	else
 	{
-		printf("Last digit of %d is %d and is 0\n", number, last_digit);
+		printf("Last digit of %d is %d and is 0\n", n, last_digit);
 	}
 
 	return (0);
@@ -35,9 +37,10 @@ int main(void)
 
 
 /**
- * get_last_digit - returns last digit of an integer and retains original number's sign.
+ * get_last_digit - returns last digit of an integer and retains original
+ * 		    number's sign.
  * @number: The integer to extract the last digit and sign from.
- * Return: Last digit and sign of `number` such that the digits `abc` 
+ * Return: Last digit and sign of `number` such that the digits `abc`
  * returns `c` and `-abc` returns `-c`.
  */
 int get_last_digit(int number)
