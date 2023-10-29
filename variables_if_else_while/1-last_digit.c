@@ -38,7 +38,7 @@ int main(void)
 
 /**
  * get_last_digit - returns last digit of an integer and retains original
- * 		    number's sign.
+ * number's sign.
  * @number: The integer to extract the last digit and sign from.
  * Return: Last digit and sign of `number` such that the digits `abc`
  * returns `c` and `-abc` returns `-c`.
