@@ -1,3 +1,6 @@
+int check_divisibility_recursively(int n, int divisor);
+int have_tried_all_divisors(int n, int divisor);
+int is_currently_divisible(int n, int divisior);
 int _do_calculation(int n, int y);
 int _putchar(char c);
 void _puts_recursion(char *s);
