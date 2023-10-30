@@ -20,11 +20,11 @@ int is_prime_number(int n)
  */
 int check_divisibility_recursively(int n, int divisor)
 {
-	if (n <= 1 || is_currently_divisible(n, divisor) )
+	if (n <= 1 || is_currently_divisible(n, divisor))
 	{
 		return (0);
 	}
-	if (have_tried_all_divisors(n, divisor) )
+	if (have_tried_all_divisors(n, divisor))
 	{
 		return (1);
 	}
@@ -43,8 +43,8 @@ int check_divisibility_recursively(int n, int divisor)
  */
 int is_currently_divisible(int n, int divisor)
 {
-	return (n % divisor == 0) ? 1 : 0;
-	
+	return (n % divisor == 0 ? 1 : 0);
+
 }
 
 /**
@@ -55,6 +55,6 @@ int is_currently_divisible(int n, int divisor)
  */
 int have_tried_all_divisors(int n, int divisor)
 {
-	return ((divisor * divisor) > n ) ? 1 : 0;
+	return ((divisor * divisor) > n ? 1 : 0);
 }
 
