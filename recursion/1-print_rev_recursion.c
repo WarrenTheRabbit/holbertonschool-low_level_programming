@@ -12,7 +12,7 @@ void _reverse_recurse(char *s);
 void _print_rev_recursion(char *s)
 {
 	_reverse_recurse(s);
-	_putchar('\n');
+	/* _putchar('\n'); */
 }
 
 
@@ -29,7 +29,7 @@ void _reverse_recurse(char *s)
         }
         else
         {
-                _reverse_recurse(++s);
+                _reverse_recurse(s + 1);
                 _putchar(*s);
         }
 }
