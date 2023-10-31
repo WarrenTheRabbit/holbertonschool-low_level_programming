@@ -3,37 +3,77 @@
 
 /**
  * is_prime_number - determines whether a number is prime
+ *
  * @n: number to check if prime
+ *
  * Return: 1 if n is prime; 0 if not prime
  */
 int is_prime_number(int n)
 {
-	return (check_divisibility_recursively(n, 2));
+	return (_is_prime_number(n, 2));
 }
 
-
 /**
- * check_divisibility_recursively - determines whether a number is prime
- * @n: number to check if prime
- * @divisor: current divisor
- * Return: 1 if n is prime; 0 if not prime
+ * _is_prime_number - determines whether a number is prime
+ *
+ * Description: Recursively calculates whether `n` is prime;
+ * this is achieved by iteratively testing candidate
+ * divisors.
+ *
+ * @n: The number to check for primacy.
+ * @divisor: The current candidate divisor.
+ *
+ * Return: 1 if n is prime; 0 if not prime.
  */
-int check_divisibility_recursively(int n, int divisor)
+int _is_prime_number(int n, int divisor)
 {
-	if (n <= 1 || is_currently_divisible(n, divisor))
+	if (is_conclusively_not_prime(n, divisor))
 	{
 		return (0);
 	}
-	if (have_tried_all_divisors(n, divisor))
+	if (is_conclusively_prime(n, divisor))
 	{
 		return (1);
 	}
 
-	return (check_divisibility_recursively(n, divisor + 1));
-
+	return (_is_prime_number(n, divisor + 1));
 }
 
+/**
+ * _is_prime_number - determines whether a number is prime
+ * @n: number to check if prime
+ * @divisor: current divisor
+ * Return: 1 if n is prime; 0 if not prime
+ */
+int is_conclusively_not_prime(int n, int divisor)
+{
+	if (n <= 1 || is_currently_divisible(n, divisor))
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}	
+}
 
+/**
+ * _is_prime_number - determines whether a number is prime
+ * @n: number to check if prime
+ * @divisor: current divisor
+ * Return: 1 if n is prime; 0 if not prime
+ */
+int is_conclusively_prime(int n, int divisor)
+{
+	if (have_tried_all_divisors(n, divisor))
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}	
+}
 
 /**
  * is_currently_divisible - determines whether a number is prime
