@@ -4,12 +4,23 @@
 
 int _is_palindrome_recursive(char *str, int call_number);
 
+/**
+ * is_palindrome - checks whether `str` is a palindrome.
+ * @str: a string.
+ * Return: 1 if `str` is a palindrome; otherwise, 0.
+ */
 int is_palindrome(char *str)
 {
 	return (_is_palindrome_recursive(str, 0));
 }
 
 
+/**
+ * _is_palindrome_recursive - checks whether `str` is a palindrome.
+ * @str: a string.
+ * @call_number: counts how many calls have been made previously.
+ * Return: 1 if `str` is a palindrome; otherwise, 0.
+ */
 int _is_palindrome_recursive(char *str, int call_number)
 {
 	int size = strlen(str);
@@ -25,8 +36,8 @@ int _is_palindrome_recursive(char *str, int call_number)
 	{
 		return (0);
 	}
-	else 
-	{	
-		return _is_palindrome_recursive(str, call_number + 1);
+	else
+	{
+		return (_is_palindrome_recursive(str, call_number + 1));
 	}
 }
