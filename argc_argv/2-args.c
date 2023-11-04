@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	 * as the first argument. The index is set to 1 to
 	 * skip this unwanted program name argument.
 	 */
-	int index = 1;
+	int index = 0;
 
 	while (index < argc)
 	{
