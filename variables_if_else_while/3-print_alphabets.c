@@ -12,17 +12,17 @@ int main(void)
 	print_uppercase_alphabet();
 	putchar('\n');
 
-	return (EXIT_SUCCESS);	
+	return (EXIT_SUCCESS);
 }
 
 
 /**
- * main - entry point
+ * print_lowercase_alphabet - entry point
  * Return: 0
  */
-void print_lowercase_alphabet()
+void print_lowercase_alphabet(void)
 {
-	int start_letter = 'a'; 
+	int start_letter = 'a';
 	int end_letter = 'z';
 	int current_letter = start_letter;
 
@@ -35,12 +35,12 @@ void print_lowercase_alphabet()
 
 
 /**
- * main - entry point
+ * print_uppercase_alphabet - entry point
  * Return: 0
  */
-void print_uppercase_alphabet()
+void print_uppercase_alphabet(void)
 {
-	int start_letter = 'A'; 
+	int start_letter = 'A';
 	int end_letter = 'Z';
 	int current_letter = start_letter;
 
