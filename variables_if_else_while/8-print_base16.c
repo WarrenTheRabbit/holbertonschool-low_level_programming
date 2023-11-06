@@ -26,7 +26,7 @@ void print_lowercase_alphabet(void)
 	int start_letter = 'a';
 	int end_letter = 'f';
 	int current_letter = start_letter;
-:
+
 	while (current_letter <= end_letter)
 	{
 		putchar(current_letter);
