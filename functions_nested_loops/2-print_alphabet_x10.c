@@ -28,15 +28,15 @@ void print_alphabet_x10(void)
  */
 void print_alphabet(void)
 {
-        int start_letter = 'a';
-        int count = 0;
+	int start_letter = 'a';
+	int count = 0;
 
-        while (count < 26)
-        {
-                _putchar(start_letter + count);
-                count++;
-        }
+	while (count < 26)
+	{
+		_putchar(start_letter + count);
+		count++;
+	}
 
-        _putchar('\n');
+	_putchar('\n');
 }
 
