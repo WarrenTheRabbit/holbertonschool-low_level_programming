@@ -13,7 +13,7 @@ void jack_bauer(void)
 	int current_minute, minutes, hours;
 	int minutes_in_day = HOURS_IN_A_DAY * MINUTES_IN_AN_HOUR;
 
-	for (current_minute = 0; current_minute <= minutes_in_day; ++current_minute)
+	for (current_minute = 0; current_minute < minutes_in_day; ++current_minute)
 	{
 		hours = current_minute / 60;
 		minutes = current_minute % 60;
