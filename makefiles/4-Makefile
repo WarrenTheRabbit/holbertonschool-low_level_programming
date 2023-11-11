@@ -1,0 +1,34 @@
+CC = gcc
+CFLAGS: -Wall -Werror -Wextra -pedantic
+SRC = main.c school.c
+OBJ = $(patsubst %.c, %.o, $(SRC))
+NAME = school
+RM = rm
+MAKEFILE = $(lastword $(MAKEFILE_LIST))
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@echo Building $(NAME) from $(OBJ)...
+	$(CC) $(CFLAGS) $^ -o $@
+
+$(OBJ): %.o: %.c
+
+clean:
+	@echo Deleteing all vim and emac temporary files...
+	$(RM) -f *~ *.swp $(NAME) 
+
+oclean: 
+	@echo cleaning object files...
+	@ls *.o 2>/dev/null || true
+	@$(RM) -f *.o	
+	@echo Finished cleaning object files.
+
+fclean: clean oclean
+	@echo Finished full clean.
+
+objects: $(OBJ)
+	@echo All required .o files exist.
+
+re: oclean objects
+	@echo Finished forced recompliation.
