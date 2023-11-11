@@ -13,7 +13,7 @@ $(NAME): $(OBJ)
 
 %.o: %.c
 	@echo Assembling $<...
-	gcc -c $< -o $@
+	$(CC) -c $< -o $@
 
 clean:
 	@echo Deleteing all vim and emac temporary files...
