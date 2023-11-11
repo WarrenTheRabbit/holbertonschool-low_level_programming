@@ -17,12 +17,12 @@ $(NAME): $(OBJ)
 
 clean:
 	@echo Deleteing all vim and emac temporary files...
-	$(rm) -f *~ *.swp $(NAME) 
+	$(RM) -f *~ *.swp $(NAME) 
 
 oclean: 
 	@echo cleaning object files...
 	@ls *.o 2>/dev/null || true
-	@$(rm) -f *.o	
+	@$(RM) -f *.o	
 	@echo Finished cleaning object files.
 
 fclean: clean oclean
