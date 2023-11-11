@@ -1,9 +1,9 @@
 CC = gcc
 SRC = $(wildcard *.c)
 OBJ = $(patsubst %.c, %.o, $(SRC))
-NAME := school
-RM := rm -f *.c *.o
-MAKEFILE := $(lastword $(MAKEFILE_LIST))
+NAME = school
+RM = rm -f *.c *.o
+MAKEFILE = $(lastword $(MAKEFILE_LIST))
 
 all: $(NAME)
 
