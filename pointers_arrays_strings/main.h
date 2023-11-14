@@ -1,3 +1,4 @@
+void print_rev_recursively(char *c);
 int _putchar(char c);
 void reset_to_98(int *n);
 void swap_int(int *a, int *b);
