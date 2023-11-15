@@ -5,7 +5,7 @@ int _get_size(char *str);
 
 /**
  * puts2 - entry point
- * @str:
+ * @str: pointer to string
  */
 void puts2(char *str)
 {
