@@ -15,19 +15,13 @@ int _atoi(char *s)
 	{
 
 		if (s[index] == '\0')
-		{
 			break;
-		}
 
 		if (s[index] == '-')
-		{
 			sign *= -1;
-		}
 
 		if (s[index] >= '0' && s[index] <= '9')
-		{
 			break;
-		}
 
 		index++;
 	}
@@ -35,14 +29,12 @@ int _atoi(char *s)
 	while (1)
 	{
 		if (s[index] == '\0')
-		{
 			break;
-		}
+		
 		/** terminate when non-digit character found. */
 		if (s[index] < '0' || s[index] > '9')
-		{
 			break;
-		}
+		
 		number *= 10;
 		number += (s[index] - '0');
 
@@ -52,6 +44,3 @@ int _atoi(char *s)
 
 	return (sign * number);
 }
-
-
-
