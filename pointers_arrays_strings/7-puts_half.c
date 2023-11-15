@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "main.h"
-size_t _getsize(char *str);
+size_t _get_size(char *str);
+
 
 /**
  * puts_half - entry point
