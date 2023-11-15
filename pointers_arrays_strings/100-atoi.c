@@ -14,6 +14,11 @@ int _atoi(char *s)
 	while (1)
 	{
 
+		if (s[index] == '\0')
+		{
+			break;
+		}
+
 		if (s[index] == '-')
 		{
 			sign *= -1;
@@ -34,7 +39,7 @@ int _atoi(char *s)
 			break;
 		}
 		/** terminate when non-digit character found. */
-		if (s[index] < 48 || s[index] > 57)
+		if (s[index] < '0' || s[index] > '9')
 		{
 			break;
 		}
