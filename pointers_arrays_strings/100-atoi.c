@@ -30,11 +30,11 @@ int _atoi(char *s)
 	{
 		if (s[index] == '\0')
 			break;
-		
+
 		/** terminate when non-digit character found. */
 		if (s[index] < '0' || s[index] > '9')
 			break;
-		
+
 		number *= 10;
 		number += (s[index] - '0');
 
