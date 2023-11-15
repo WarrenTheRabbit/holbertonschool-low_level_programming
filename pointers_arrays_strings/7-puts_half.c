@@ -15,7 +15,8 @@ void puts_half(char *str)
 
 	while (i < size)
 	{
-		printf("%zu\n", i);
+		_putchar(str[i]);	
+		i++;
 	}
 }
 
