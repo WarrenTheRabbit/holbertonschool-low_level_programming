@@ -4,6 +4,7 @@ void _swap_elements(char *a, char *b);
 size_t _get_size(char *s);
 /**
  * rev_string - entry point
+ * @s: pointer to char
  * Return: Always 0.
  */
 void rev_string(char *s)
@@ -23,7 +24,6 @@ void rev_string(char *s)
  * _get_size - gets the number of elements
  * @s: pointer to character
  * Return: the number of elements
- * Return: Always 0.
  */
 size_t _get_size(char *s)
 {
