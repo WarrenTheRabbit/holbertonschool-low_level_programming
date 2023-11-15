@@ -9,7 +9,7 @@ int _atoi(char *s)
 {
 	int sign = 1;
 	size_t index = 0;
-	int number = 0;
+	unsigned int number = 0;
 /** search for first digit and determine sign of number */
 	while (1)
 	{
