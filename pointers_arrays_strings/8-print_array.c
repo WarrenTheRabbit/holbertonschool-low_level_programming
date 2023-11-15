@@ -8,6 +8,12 @@
 void print_array(int *a, int n)
 {
 
+	if (n <= 0)
+	{
+		printf("\n");
+		return;
+	}
+
 	int index = 0;
 
 	while (index < n - 1)
