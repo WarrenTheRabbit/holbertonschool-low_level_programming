@@ -10,7 +10,6 @@ char *_strcat(char *dest, char *src)
 {
 	char *ptr = dest;
 
-	// Find end of dest string.
 	while (*ptr != '\0')
 	{
 		ptr++;
