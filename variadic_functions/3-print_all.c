@@ -2,10 +2,13 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "variadic_functions.h"
+void print_char(va_list *);
+
+typedef void (*print_handler)(va_list *);
 
 typedef struct {
     char type_id;
-    void (*handler)(va_list *args);
+    print_handler handler;
 } TypeHandler;
 
 TypeHandler handlers[] = {
