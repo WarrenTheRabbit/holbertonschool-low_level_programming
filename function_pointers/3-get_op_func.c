@@ -31,18 +31,3 @@ int (*get_op_func(char *s))(int, int)
 	return (NULL);
 
 }
-
-
-
-int get_length(char *str) 
-{
-	int length = 0;
-	
-	while (*str != '\0')
-	{
-		str++;
-		length++;
-	}
-
-	return (length);
-}
