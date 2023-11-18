@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include "variadic_functions.h"
 void print_char(va_list *);
+void print_string(va_list *);
+
 
 typedef void (*print_handler)(va_list *);
 
