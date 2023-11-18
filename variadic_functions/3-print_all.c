@@ -38,6 +38,9 @@ void print_all(const char * const format, ...)
 			if (handlers[j].type_id == format[index])
 			{
 				handlers[j].handler(&args);
+
+				if (format[index + 1] != '\0')
+					printf(", ");
 			}
 			j++;
 		}
