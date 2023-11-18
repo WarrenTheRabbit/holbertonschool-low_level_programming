@@ -37,7 +37,7 @@ void print_all(const char * const format, ...)
 
 	}
 
-	printf("\b\b\b\b\b\n");
+	printf("\n");
 
 	va_end(args);
 }
