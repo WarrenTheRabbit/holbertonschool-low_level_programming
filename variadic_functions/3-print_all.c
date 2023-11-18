@@ -2,9 +2,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "variadic_functions.h"
-void print_char(va_list *);
-void print_string(va_list *);
-
 
 typedef void (*print_handler)(va_list *);
 
@@ -31,9 +28,9 @@ TypeHandler handlers[] = {
 void print_all(const char * const format, ...)
 {
 	va_list args;
-	va_start(args, format);
 	int index = 0;
 	int j = 0;
+	va_start(args, format);
 
 	while (format[index])
 	{
