@@ -22,7 +22,7 @@ void print_all(const char * const format, ...)
 	int j = 0;
 	va_start(args, format);
 
-	while (format[index])
+	while (format && format[index])
 	{
 		j = 0;
 		while (handlers[j].type_id != 0 && handlers[j].type_id != format[index]) 
