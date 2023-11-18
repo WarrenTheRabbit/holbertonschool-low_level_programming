@@ -5,10 +5,10 @@
 
 int main(int argc, char **argv)
 {
-	(void)argc;
 	int operand1, operand2, result;
 	int (*operator)(int, int);
 
+	(void)argc;
 	operand1 = atoi(argv[1]);
 	operand2 = atoi(argv[3]);
 	
