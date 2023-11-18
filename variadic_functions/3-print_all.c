@@ -5,7 +5,7 @@ TypeHandler handlers[] = {
     {'s', print_string},
     {'i', print_int},
     {'f', print_float},
-    {0, NULL}
+    {0, print_nothing}
 };
 
 
@@ -22,17 +22,17 @@ void print_all(const char * const format, ...)
 	int j = 0;
 	va_start(args, format);
 
-	while (format && format[index])
+	while (format[index])
 	{
 		j = 0;
-		while (handlers[j].type_id && handlers[j].type_id != format[index]) 
+		while (handlers[j].type_id != 0 && handlers[j].type_id != format[index]) 
 		{
 			j++;
 		}
 		handlers[j].handler(&args);
 		index++;	
 		
-		if (format[index] != '\0')
+		if (format[index] != '\0' && handlers[j].handler != print_nothing)
 			printf(", ");
 
 	}
@@ -40,6 +40,10 @@ void print_all(const char * const format, ...)
 	printf("\n");
 
 	va_end(args);
+}
+
+void print_nothing(va_list *args)
+{
 }
 
 
