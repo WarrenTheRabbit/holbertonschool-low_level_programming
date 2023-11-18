@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stddef.h>
 #include <stdarg.h>
 #include "variadic_functions.h"
 
@@ -32,7 +33,7 @@ void print_all(const char * const format, ...)
 	int j = 0;
 	va_start(args, format);
 
-	while (format[index])
+	while (format && format[index])
 	{
 		j = 0;
 		while (handlers[j].type_id)
@@ -64,7 +65,14 @@ void print_int(va_list *args)
 void print_string(va_list *args)
 {
 	char *s = va_arg(*args, char *);
-	printf("%s", s);
+	if (s == NULL)
+	{
+		printf("(nil)");
+	}
+	else
+	{
+		printf("%s", s);
+	}
 }
 
 void print_char(va_list *args)
