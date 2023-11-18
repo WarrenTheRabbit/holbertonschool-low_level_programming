@@ -4,7 +4,7 @@
 
 /**
  * op_add - add operation
- * @a: number 
+ * @a: number
  * @b: number
  * Return int
  */
@@ -43,7 +43,7 @@ int op_mul(int a, int b)
  */
 int op_div(int a, int b)
 {
-	
+
 	if (b == 0)
 	{
 		printf("%s\n", "Error");
