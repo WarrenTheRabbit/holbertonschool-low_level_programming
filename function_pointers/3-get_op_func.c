@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int get_length(char *str);
-
 int (*get_op_func(char *s))(int, int)
 {
 	op_t ops[] = {
@@ -15,9 +13,8 @@ int (*get_op_func(char *s))(int, int)
 		{NULL, NULL}
 	};
 	int i = 0;
-	int length = get_length(s);
 	
-	if (length > 1) 
+	if (*(s + 1) != '\0') 
 	{	
 		printf("%s", "Error");
 		exit(100);
