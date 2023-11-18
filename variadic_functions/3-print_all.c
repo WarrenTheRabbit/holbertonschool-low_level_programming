@@ -1,8 +1,7 @@
 #include "variadic_functions.h"
 /**
- * print_all - sums all arguments
- * @separator: first argument
- * @n: second argument
+ * print_all - sumsums all arguments
+ * @format: first argument
  * Return: nothing.
  */
 void print_all(const char * const format, ...)
@@ -40,12 +39,22 @@ TypeHandler handlers[] = {
 	va_end(args);
 }
 
+/**
+ * print_nothing - sums all arguments
+ * @args: first argument
+ * Return: nothing.
+ */
 void print_nothing(va_list *args)
 {
 	(void)args;
 }
 
 
+/**
+ * print_int - sums all arguments
+ * @args: first argument
+ * Return: nothing.
+ */
 void print_int(va_list *args)
 {
 	int d = va_arg(*args, int);
@@ -53,6 +62,11 @@ void print_int(va_list *args)
 	printf("%d", d);
 }
 
+/**
+ * print_string - sums all arguments
+ * @args: first argument
+ * Return: nothing.
+ */
 void print_string(va_list *args)
 {
 	char *s = va_arg(*args, char *);
@@ -64,6 +78,11 @@ void print_string(va_list *args)
 	printf("%s", s);
 }
 
+/**
+ * print_char - sums all arguments
+ * @args: first argument
+ * Return: nothing.
+ */
 void print_char(va_list *args)
 {
 	char c = va_arg(*args, int);
@@ -71,6 +90,11 @@ void print_char(va_list *args)
 	printf("%c", c);
 }
 
+/**
+ * print_float - sums all arguments
+ * @args: first argument
+ * Return: nothing.
+ */
 void print_float(va_list *args)
 {
 	double f = va_arg(*args, double);
