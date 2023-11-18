@@ -1,4 +1,8 @@
 #include "3-calc.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int get_length(char *str);
 
 int (*get_op_func(char *s))(int, int)
 {
@@ -11,6 +15,14 @@ int (*get_op_func(char *s))(int, int)
 		{NULL, NULL}
 	};
 	int i = 0;
+	int length = get_length(s);
+	
+	if (length > 1) 
+	{	
+		printf("%s", "Error");
+		exit(100);
+	}
+	
 
 	while (ops[i].op != NULL)
 	{
@@ -21,4 +33,19 @@ int (*get_op_func(char *s))(int, int)
 
 	return (NULL);
 
+}
+
+
+
+int get_length(char *str) 
+{
+	int length = 0;
+	
+	while (*str != '\0')
+	{
+		str++;
+		length++;
+	}
+
+	return (length);
 }
