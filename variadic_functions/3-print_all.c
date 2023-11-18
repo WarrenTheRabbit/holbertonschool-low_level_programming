@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-
+#include "variadic_functions.h"
 
 /**
  * print_all - sums all arguments
@@ -12,34 +12,50 @@
 void print_all(const char * const format, ...)
 {
 	va_list args;
-	int index = 0;
-	int print_flag;
 	va_start(args, format);
+	int index = 0;
 
 	while (format[index])
 	{
-
-		print_flag = 1;
-
 		if (format[index] == 'c')
-			printf("%c", va_arg(args, int));
+		{
+			print_char(&args);
+		}
 		else if (format[index] == 'i')
-			printf("%d", va_arg(args, int));
-		else if (format[index] == 'f')
-			printf("%f", va_arg(args, double));
+			print_int(&args);
 		else if (format[index] == 's')
-			printf("%s", va_arg(args, char *));
-		else
-			print_flag = 0;
+			print_string(&args);
 
-		if (print_flag && format[index + 1] != '\0')
-			printf(", ");
-
+	
 		index++;
-
 	}
 
 	printf("\n");
 
 	va_end(args);
+}
+
+
+void print_int(va_list *args)
+{
+	int d = va_arg(*args, int);
+	printf("%d", d);
+}
+
+void print_string(va_list *args)
+{
+	char *s = va_arg(*args, char *);
+	printf("%s", s);
+}
+
+void print_char(va_list *args)
+{
+	int c = va_arg(*args, int);
+	printf("%c", c);
+}
+
+void print_float(va_list *args)
+{
+	double f = va_arg(*args, double);
+	printf("%f", f);
 }
