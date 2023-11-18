@@ -29,7 +29,7 @@ TypeHandler handlers[] = {
 		}
 		handlers[j].handler(&args);
 		index++;
-	
+
 		if (format[index] != '\0' && handlers[j].handler != print_nothing)
 			printf(", ");
 
@@ -49,12 +49,14 @@ void print_nothing(va_list *args)
 void print_int(va_list *args)
 {
 	int d = va_arg(*args, int);
+
 	printf("%d", d);
 }
 
 void print_string(va_list *args)
 {
 	char *s = va_arg(*args, char *);
+
 	if (s == NULL)
 	{
 		s = "(nil)";
@@ -65,12 +67,14 @@ void print_string(va_list *args)
 void print_char(va_list *args)
 {
 	char c = va_arg(*args, int);
+
 	printf("%c", c);
 }
 
 void print_float(va_list *args)
 {
 	double f = va_arg(*args, double);
+
 	printf("%f", f);
 }
 
