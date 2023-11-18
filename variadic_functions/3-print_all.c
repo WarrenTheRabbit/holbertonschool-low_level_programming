@@ -3,6 +3,20 @@
 #include <stdarg.h>
 #include "variadic_functions.h"
 
+typedef struct {
+    char type_id;
+    void (*handler)(va_list *args);
+} TypeHandler;
+
+TypeHandler handlers[] = {
+    {'c', print_char},
+    {'s', print_string},
+    {'i', print_int},
+    {'f', print_float},
+    {0, NULL}  
+};
+
+
 /**
  * print_all - sums all arguments
  * @separator: first argument
@@ -14,19 +28,19 @@ void print_all(const char * const format, ...)
 	va_list args;
 	va_start(args, format);
 	int index = 0;
+	int j = 0;
 
 	while (format[index])
 	{
-		if (format[index] == 'c')
+		j = 0;
+		while (handlers[j].type_id)
 		{
-			print_char(&args);
+			if (handlers[j].type_id == format[index])
+			{
+				handlers[j].handler(&args);
+			}
+			j++;
 		}
-		else if (format[index] == 'i')
-			print_int(&args);
-		else if (format[index] == 's')
-			print_string(&args);
-
-	
 		index++;
 	}
 
@@ -50,7 +64,7 @@ void print_string(va_list *args)
 
 void print_char(va_list *args)
 {
-	int c = va_arg(*args, int);
+	char c = va_arg(*args, int);
 	printf("%c", c);
 }
 
