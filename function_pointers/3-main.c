@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	operator = get_op_func(argv[2]);
 	if (operator == NULL) {
     		printf("Error\n");
-		return (9999999999);	
+		return (99);	
 	}
 
 	result = operator(operand1, operand2);
