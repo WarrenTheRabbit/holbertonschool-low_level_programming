@@ -5,6 +5,7 @@
 
 int main(int argc, char **argv)
 {
+	(void)argc;
 	int operand1, operand2, result;
 	int (*operator)(int, int);
 
