@@ -30,11 +30,14 @@ void print_all(const char * const format, ...)
 			j++;
 		}
 		handlers[j].handler(&args);
-		printf(", ");
-		index++;
+		index++;	
+		
+		if (format[index] != '\0')
+			printf(", ");
+
 	}
 
-	printf("\b\b\b\n");
+	printf("\b\b\b\b\b\n");
 
 	va_end(args);
 }
