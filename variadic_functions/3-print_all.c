@@ -4,19 +4,12 @@
 #include <stdarg.h>
 #include "variadic_functions.h"
 
-typedef void (*print_handler)(va_list *);
-
-typedef struct {
-    char type_id;
-    print_handler handler;
-} TypeHandler;
-
 TypeHandler handlers[] = {
     {'c', print_char},
     {'s', print_string},
     {'i', print_int},
     {'f', print_float},
-    {0, NULL}  
+    {0, NULL}
 };
 
 
@@ -36,21 +29,16 @@ void print_all(const char * const format, ...)
 	while (format && format[index])
 	{
 		j = 0;
-		while (handlers[j].type_id)
+		while (handlers[j].type_id && handlers[j].type_id != format[index]) 
 		{
-			if (handlers[j].type_id == format[index])
-			{
-				handlers[j].handler(&args);
-
-				if (format[index + 1] != '\0')
-					printf(", ");
-			}
 			j++;
 		}
+		handlers[j].handler(&args);
+		printf(", ");
 		index++;
 	}
 
-	printf("\n");
+	printf("\b\b\b\n");
 
 	va_end(args);
 }
@@ -58,31 +46,29 @@ void print_all(const char * const format, ...)
 
 void print_int(va_list *args)
 {
-	int d = va_arg(*args, int);
-	printf("%d", d);
+        int d = va_arg(*args, int);
+        printf("%d", d);
 }
 
 void print_string(va_list *args)
 {
-	char *s = va_arg(*args, char *);
+        char *s = va_arg(*args, char *);
 	if (s == NULL)
 	{
-		printf("(nil)");
+		s = "nil";
 	}
-	else
-	{
-		printf("%s", s);
-	}
+        printf("%s", s);
 }
 
 void print_char(va_list *args)
 {
-	char c = va_arg(*args, int);
-	printf("%c", c);
+        char c = va_arg(*args, int);
+        printf("%c", c);
 }
 
 void print_float(va_list *args)
 {
-	double f = va_arg(*args, double);
-	printf("%f", f);
+        double f = va_arg(*args, double);
+        printf("%f", f);
 }
+
