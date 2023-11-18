@@ -16,8 +16,8 @@ int (*get_op_func(char *s))(int, int)
 	
 	if (s == NULL || s[1] != '\0') 
 	{	
-		printf("%s", "Error");
-		exit(100);
+		printf("%s\n", "Error");
+		exit(99);
 	}
 	
 
