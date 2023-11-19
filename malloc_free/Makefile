@@ -32,7 +32,6 @@ $(PROGRAM_NAME): $(OBJECTS)
 	@echo Linking objects...
 	@$(CC) -g $(CFLAGS) $^ -o $@
 	@echo 		BUILDING COMPLETED
-	@echo -----------------------------------------
 
 
 # Pattern rule to create object files from corresponding source files
@@ -49,7 +48,6 @@ clean:
 	@echo Cleaning...
 	@rm -f $(OBJECTS) $(PROGRAM_NAME)
 	@echo 		CLEANING COMPLETED
-	@echo -----------------------------------------
 
 debug:  $(PROGRAM_NAME)
 	@echo Debugging.. 
@@ -121,14 +119,11 @@ test_that_strdup_duplicates_character:
 	@$(call ASSERT_OUTPUT_IS,'a')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
-
 test_that_strdup_duplicates_three_characters:
 	@$(call PRINT_TEST_NAME,$@)
 	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'abc')
 	@$(call ASSERT_OUTPUT_IS,'abc')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
-
-
 
 test_that_strdup_duplicates_number:
 	@$(call PRINT_TEST_NAME,$@)
@@ -142,25 +137,6 @@ test_that_strdup_allocates_memory:
 	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'Duplicated')
 	@$(call ASSERT_OUTPUT_NOT,'failed to allocate memory')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
-
-
-
-test_that_strdup_returns_null_when_size_equals_zero: null_driver
-	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo $@
-	@$(TEST_PASSES) $< 'Returns NULL when size is 0.'
-	@rm $<
-
-test_that_strdup_allocates_memory:
-	@echo $(DIVIDER)
-	@echo "\n"$@
-	@$(ASSERT_OUTPUT_IS_FAILS) $(PROGRAM_NAME) 'failed to allocate memory'
-
-
-null_driver:
-	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo Building $@...
-	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
 
 malloc_failure_driver:
 	@sed -i.bak '/int main/ivoid* malloc(size_t size) { return (NULL); }' $(DRIVER)
