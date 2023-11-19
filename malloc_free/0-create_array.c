@@ -9,6 +9,11 @@
 char *create_array(unsigned int size, char c)
 {
 	char *ptr = NULL;
+
+	if (size == 0)
+	{
+		return (NULL);
+	}
 	ptr = malloc(1);
 	return (ptr);
 }
