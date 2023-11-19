@@ -87,7 +87,8 @@ TEST_PASSES = ~/c_test/c_test
 TEST_FAILS= ~/c_test/c_test_expect_fail 
 TEST_TARGETS = \
         test_that_allocates_memory \
-	test_that_returns_null_when_size_equals_zero
+	test_that_returns_null_when_size_equals_zero \
+	test_that_malloc_failure_handled
 
 list_tests:
 	@echo $(TEST_TARGETS)
@@ -110,7 +111,18 @@ test_that_returns_null_when_size_equals_zero: null_driver
 	@$(TEST_PASSES) $< 'Returns NULL when size is 0.'
 	@rm $<
 
+test_that_malloc_failure_handled: malloc_failure_driver
+	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo $@
+	@$(TEST_PASSES) $< 'Returns NULL when malloc fails.'
+	@rm $<
+
 null_driver:
+	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo Building $@...
+	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
+
+malloc_failure_driver:
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo Building $@...
 	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
