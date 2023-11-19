@@ -9,11 +9,8 @@ TASK_NUMBER = $(shell echo $(PROGRAM_NAME) | sed 's/[^0-9]*\([0-9]\+\).*/\1/')
 OBJECTS = $(PROGRAM_NAME).o $(TASK_NUMBER)-main.o _putchar.o
 SRC = $(PROGRAM_NAME).c $(TASK_NUMBER)-main.c _putchar.c
 
-TEST_PASSES = ~/c_test/c_test $(PROGRAM_NAME)  
-TEST_FAILS= ~/c_test/c_test_expect_fail $(PROGRAM_NAME)  
-TEST_TARGETS = \
-	test_that_allocates_memory
-	
+TEST_PASSES = ~/c_test/c_test   
+TEST_FAILS= ~/c_test/c_test_expect_fail   
 
 all:
 	@echo
@@ -85,8 +82,18 @@ program:
 edit: 
 	@vim Makefile
 
+
+TEST_PASSES = ~/c_test/c_test $(PROGRAM_NAME)
+TEST_FAILS= ~/c_test/c_test_expect_fail $(PROGRAM_NAME)
+TEST_TARGETS = \
+        test_that_allocates_memory \
+	test_that_returns_null_when_size_equals_zero
+
+list_tests:
+	@echo $(TEST_TARGETS)
+
 test:   $(TEST_TARGETS)
-	@echo "\n"
+	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@$(TEST_PASSES) dummy < tests/$(PROGRAM_NAME)
 	@echo 		TESTING COMPLETED
 	@echo -----------------------------------------
@@ -95,3 +102,14 @@ test_that_allocates_memory:
 	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo "\n"$@
 	@$(TEST_FAILS) 'failed to allocate memory'
+
+test_that_returns_null_when_size_equals_zero: null_driver
+	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo $@
+	@$(TEST_PASSES) 'Returns NULL when size is 0.'
+	@rm $<
+
+null_driver:
+	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo Building $@...
+	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
