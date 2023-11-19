@@ -115,6 +115,7 @@ test_that_malloc_failure_handled: malloc_failure_driver
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo $@
 	@$(TEST_PASSES) $< 'Returns NULL when malloc fails.'
+	@rm $<
 
 null_driver:
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
