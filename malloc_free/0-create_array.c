@@ -9,12 +9,20 @@
 char *create_array(unsigned int size, char c)
 {
 	char *ptr = NULL;
+	unsigned int index;
 
 	if (size == 0)
 	{
 		return (NULL);
 	}
-	ptr = malloc(1);
+	
+	ptr = malloc(size * sizeof(c));
+	
+	for (index = 0 ; index < size; index++)
+	{
+		ptr[index] = c;
+	}
+		
 	return (ptr);
 }
 
