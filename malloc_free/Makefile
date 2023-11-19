@@ -86,6 +86,7 @@ edit:
 TEST_PASSES = ~/c_test/c_test 
 TEST_FAILS= ~/c_test/c_test_expect_fail 
 TEST_TARGETS = \
+	integration_test
 	#test_that_allocates_memory \
 	#test_that_malloc_failure_handled
 
@@ -93,11 +94,14 @@ list_tests:
 	@echo $(TEST_TARGETS)
 
 test:   $(TEST_TARGETS)
+	@echo 		TESTING COMPLETED
+	@echo -----------------------------------------
+
+integration_test: 
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo Integration Test
 	@$(TEST_PASSES) $(PROGRAM_NAME) dummy < tests/$(PROGRAM_NAME)
-	@echo 		TESTING COMPLETED
-	@echo -----------------------------------------
+	
 
 test_that_allocates_memory:
 	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
