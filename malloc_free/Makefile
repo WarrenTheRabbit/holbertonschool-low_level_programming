@@ -83,8 +83,8 @@ edit:
 	@vim Makefile
 
 
-TEST_PASSES = ~/c_test/c_test $(PROGRAM_NAME)
-TEST_FAILS= ~/c_test/c_test_expect_fail $(PROGRAM_NAME)
+TEST_PASSES = ~/c_test/c_test 
+TEST_FAILS= ~/c_test/c_test_expect_fail 
 TEST_TARGETS = \
         test_that_allocates_memory \
 	test_that_returns_null_when_size_equals_zero
@@ -94,19 +94,20 @@ list_tests:
 
 test:   $(TEST_TARGETS)
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@$(TEST_PASSES) dummy < tests/$(PROGRAM_NAME)
+	@echo MAIN TEST CASE
+	@$(TEST_PASSES) $(PROGRAM_NAME) dummy < tests/$(PROGRAM_NAME)
 	@echo 		TESTING COMPLETED
 	@echo -----------------------------------------
 
 test_that_allocates_memory:
 	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo "\n"$@
-	@$(TEST_FAILS) 'failed to allocate memory'
+	@$(TEST_FAILS) $(PROGRAM_NAME) 'failed to allocate memory'
 
 test_that_returns_null_when_size_equals_zero: null_driver
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo $@
-	@$(TEST_PASSES) 'Returns NULL when size is 0.'
+	@$(TEST_PASSES) $< 'Returns NULL when size is 0.'
 	@rm $<
 
 null_driver:
