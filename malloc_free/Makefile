@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -Wall -Werror -pedantic 
 
 
-PROGRAM_NAME = 0-create_array
+PROGRAM_NAME = 1-strdup
 TASK_NUMBER = $(shell echo $(PROGRAM_NAME) | sed 's/[^0-9]*\([0-9]\+\).*/\1/')
 
 # Define the object files needed for the final executable.
@@ -86,16 +86,15 @@ edit:
 TEST_PASSES = ~/c_test/c_test 
 TEST_FAILS= ~/c_test/c_test_expect_fail 
 TEST_TARGETS = \
-        test_that_allocates_memory \
-	test_that_returns_null_when_size_equals_zero \
-	test_that_malloc_failure_handled
+	#test_that_allocates_memory \
+	#test_that_malloc_failure_handled
 
 list_tests:
 	@echo $(TEST_TARGETS)
 
 test:   $(TEST_TARGETS)
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo MAIN TEST CASE
+	@echo Integration Test
 	@$(TEST_PASSES) $(PROGRAM_NAME) dummy < tests/$(PROGRAM_NAME)
 	@echo 		TESTING COMPLETED
 	@echo -----------------------------------------
@@ -105,24 +104,18 @@ test_that_allocates_memory:
 	@echo "\n"$@
 	@$(TEST_FAILS) $(PROGRAM_NAME) 'failed to allocate memory'
 
-test_that_returns_null_when_size_equals_zero: null_driver
-	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo $@
-	@$(TEST_PASSES) $< 'Returns NULL when size is 0.'
-	@rm $<
-
 test_that_malloc_failure_handled: malloc_failure_driver
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo $@
+	# Run test.
 	@$(TEST_PASSES) $< 'Returns NULL when malloc fails.'
+	# Teardown: delete test executable.
 	@rm $<
-
-null_driver:
-	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo Building $@...
-	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
 
 malloc_failure_driver:
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo Building $@...
+	# Setup: put function in test harness.
+	@sed -i '19s/.*/	char *array = _strdup("Unimportant");/' $@.c
+	# Compile test driver.
 	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
