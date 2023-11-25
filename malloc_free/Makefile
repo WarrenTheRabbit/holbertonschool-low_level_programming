@@ -2,8 +2,10 @@ CC = gcc
 CFLAGS = -g -Wall -Werror -pedantic 
 
 
-PROGRAM_NAME = 0-create_array
+PROGRAM_NAME = 1-strdup
 TASK_NUMBER = $(shell echo $(PROGRAM_NAME) | sed 's/[^0-9]*\([0-9]\+\).*/\1/')
+DRIVER = $(TASK_NUMBER)-main.c
+
 
 # Define the object files needed for the final executable.
 OBJECTS = $(PROGRAM_NAME).o $(TASK_NUMBER)-main.o _putchar.o
@@ -90,7 +92,7 @@ DIVIDER = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
 define ARRANGE_INPUT
 sed -i.bak 's/Duplicated/$(1)/' $(DRIVER) ; \
-rm $(PROGRAM_NAME)
+rm $(PROGRAM_NAME) ; \
 $(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME) ; \
 mv $(DRIVER).bak $(DRIVER)  
 endef
