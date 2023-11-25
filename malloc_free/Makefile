@@ -109,6 +109,7 @@ endef
 define TEST_OUTPUT_NOT
 	$(TEST_OUTPUT_FAILS) $(PROGRAM_NAME) $(1)
 endef
+
 list_tests:
 	@echo $(TEST_TARGETS)
 
