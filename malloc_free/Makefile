@@ -9,8 +9,6 @@ TASK_NUMBER = $(shell echo $(PROGRAM_NAME) | sed 's/[^0-9]*\([0-9]\+\).*/\1/')
 OBJECTS = $(PROGRAM_NAME).o $(TASK_NUMBER)-main.o _putchar.o
 SRC = $(PROGRAM_NAME).c $(TASK_NUMBER)-main.c _putchar.c
 
-TEST_PASSES = ~/c_test/c_test   
-TEST_FAILS= ~/c_test/c_test_expect_fail   
 
 all:
 	@echo
@@ -83,27 +81,62 @@ edit:
 	@vim Makefile
 
 
-TEST_PASSES = ~/c_test/c_test 
-TEST_FAILS= ~/c_test/c_test_expect_fail 
-TEST_TARGETS = \
-        test_that_allocates_memory \
-	test_that_returns_null_when_size_equals_zero \
-	test_that_malloc_failure_handled
+TEST_OUTPUT_PASSES = ./ctest 
+TEST_OUTPUT_FAILS= ./ctest_fail 
 
+TEST_OUTPUT_TARGETS := $(shell grep -oP "^test_that.*?(?=:)" Makefile)
+DIVIDER = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+
+
+define ARRANGE_INPUT
+sed -i.bak 's/Duplicated/$(1)/' $(DRIVER) ; \
+rm $(PROGRAM_NAME)
+$(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME) ; \
+mv $(DRIVER).bak $(DRIVER)  
+endef
+
+define PRINT
+	 echo $(DIVIDER) ; \
+	 echo $(1)
+endef
+
+define TEST_OUTPUT
+	$(TEST_OUTPUT_PASSES) $(PROGRAM_NAME) $(1)
+endef
+
+define TEST_OUTPUT_NOT
+	$(TEST_OUTPUT_FAILS) $(PROGRAM_NAME) $(1)
+endef
 list_tests:
 	@echo $(TEST_TARGETS)
 
-test:   $(TEST_TARGETS)
-	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo MAIN TEST CASE
-	@$(TEST_PASSES) $(PROGRAM_NAME) dummy < tests/$(PROGRAM_NAME)
-	@echo 		TESTING COMPLETED
-	@echo -----------------------------------------
+test:   clean $(PROGRAM_NAME) $(TEST_OUTPUT_TARGETS)
+
+test_that_passes_holberton_case:
+	@$(call PRINT,$@)
+	@$(call ARRANGE_INPUT,'Duplicated')
+	@$(call TEST_OUTPUT,'Duplicated')
+
+test_that_duplicates_character:
+	@$(call PRINT,$@)
+	@$(call ARRANGE_INPUT,'a')
+	@$(call TEST_OUTPUT,'a')	
+
+test_that_duplicates_three_characters:
+	@$(call PRINT,$@)
+	@$(call ARRANGE_INPUT,'abc')
+	@$(call TEST_OUTPUT,'abc')	
+
+test_that_duplicates_number:
+	@$(call PRINT,$@)
+	@$(call ARRANGE_INPUT,'1')
+	@$(call TEST_OUTPUT,'1')
 
 test_that_allocates_memory:
-	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo "\n"$@
-	@$(TEST_FAILS) $(PROGRAM_NAME) 'failed to allocate memory'
+	@$(call PRINT,$@)
+	@$(call ARRANGE_INPUT,'Duplicated')
+	@$(call TEST_OUTPUT_NOT,'failed to allocate memory')
+
 
 test_that_returns_null_when_size_equals_zero: null_driver
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
