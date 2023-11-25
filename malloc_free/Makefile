@@ -10,8 +10,8 @@ OBJECTS = $(PROGRAM_NAME).o $(TASK_NUMBER)-main.o _putchar.o
 SRC = $(PROGRAM_NAME).c $(TASK_NUMBER)-main.c _putchar.c
 DRIVER = $(TASK_NUMBER)-main.c
 
-TEST_OUTPUT_PASSES = ~/c_test/c_test   
-TEST_OUTPUT_FAILS= ~/c_test/c_test_expect_fail   
+TEST_OUTPUT_PASSES = ctest   
+TEST_OUTPUT_FAILS = ctest_fail
 
 all:
 	@echo
@@ -74,24 +74,18 @@ edit:
 	@vim Makefile
 
 
-TEST_OUTPUT_PASSES = ~/c_test/c_test 
-TEST_OUTPUT_FAILS= ~/c_test/c_test_expect_fail 
+TEST_OUTPUT_PASSES = ./ctest 
+TEST_OUTPUT_FAILS= ./ctest_fail 
 
 TEST_OUTPUT_TARGETS := $(shell grep -oP "^test_that.*?(?=:)" Makefile)
 DIVIDER = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
 
 define ARRANGE_INPUT
-@echo BEFORE
-cat $(DRIVER)
 sed -i.bak 's/Duplicated/$(1)/' $(DRIVER) ; \
-echo AFTER
-cat $(DRIVER)
 rm $(PROGRAM_NAME)
 $(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME) ; \
 mv $(DRIVER).bak $(DRIVER)  
-echo RESTORED
-cat 1-main.c
 endef
 
 define PRINT
@@ -103,65 +97,40 @@ define TEST_OUTPUT
 	$(TEST_OUTPUT_PASSES) $(PROGRAM_NAME) $(1)
 endef
 
+define TEST_OUTPUT_NOT
+	$(TEST_OUTPUT_FAILS) $(PROGRAM_NAME) $(1)
+endef
 list_tests:
 	@echo $(TEST_OUTPUT_TARGETS)
 
 
-
 test:   clean $(PROGRAM_NAME) $(TEST_OUTPUT_TARGETS)
-	@echo 		TEST_OUTPUTING COMPLETED
-	@echo -----------------------------------------
 
+test_that_passes_holberton_case:
+	@$(call PRINT,$@)
+	@$(call ARRANGE_INPUT,'Duplicated')
+	@$(call TEST_OUTPUT,'Duplicated')
 
-test_that_duplicates_character: returns_single_character
-	@echo $(DIVIDER) 
-	@echo "\n"$@ 
-	@$(TEST_OUTPUT_PASSES) $(PROGRAM_NAME) 'a' 
-	
-
-returns_single_character:
-	@sed -i.bak 's/Duplicated/a/' $(DRIVER)
-	@$(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME)
-	@mv $(DRIVER).bak $(DRIVER)
-
-test_that_duplicates_character_alternative:
+test_that_duplicates_character:
 	@$(call PRINT,$@)
 	@$(call ARRANGE_INPUT,'a')
 	@$(call TEST_OUTPUT,'a')	
 
-
 test_that_duplicates_three_characters:
 	@$(call PRINT,$@)
-	@$(call ARRANGE_INPUT,'aaa')
-	@$(call TEST_OUTPUT,'aaa')	
+	@$(call ARRANGE_INPUT,'abc')
+	@$(call TEST_OUTPUT,'abc')	
 
 test_that_duplicates_number:
 	@$(call PRINT,$@)
 	@$(call ARRANGE_INPUT,'1')
 	@$(call TEST_OUTPUT,'1')
 
-test_that_duplicates_two_characters:
-	@echo $(DIVIDER) 
-	@echo "\n"$@ 
-	
-# 	Arrange
-	@sed -i.bak 's/Duplicated/aa/' $(DRIVER)
-	
-# 	Act
-	@$(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME).bk
-	
-# 	Assert
-	@$(TEST_OUTPUT_PASSES) $(PROGRAM_NAME) 'aa' 
+test_that_allocates_memory:
+	@$(call PRINT,$@)
+	@$(call ARRANGE_INPUT,'Duplicated')
+	@$(call TEST_OUTPUT_NOT,'failed to allocate memory')
 
-# 	Teardown
-	@mv $(DRIVER).bak $(DRIVER)
-
-
-test_that_holberton_test_case_works: 
-	@echo $(DIVIDER) 
-	@echo "\n"$@ 
-	@$(TEST_OUTPUT_PASSES) $(PROGRAM_NAME) dummy < tests/$(PROGRAM_NAME)
-	
 
 test_that_allocates_memory:
 	@echo $(DIVIDER)
