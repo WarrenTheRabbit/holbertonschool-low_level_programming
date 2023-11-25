@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -Werror -pedantic 
+CFLAGS = -Wall -Werror -pedantic 
 
 
 PROGRAM_NAME = 1-strdup
@@ -10,6 +10,7 @@ DRIVER = $(TASK_NUMBER)-main.c
 # Define the object files needed for the final executable.
 OBJECTS = $(PROGRAM_NAME).o $(TASK_NUMBER)-main.o _putchar.o
 SRC = $(PROGRAM_NAME).c $(TASK_NUMBER)-main.c _putchar.c
+DRIVER = $(TASK_NUMBER)-main.c
 
 
 all:
@@ -39,15 +40,11 @@ $(PROGRAM_NAME): $(OBJECTS)
 	@echo Compiling '$<' to object code...
 	@$(CC) -g $(CFLAGS) -c $< -o $@
 
-update: $(PROGRAM_NAME) test
-	@echo 		UPDATING COMPLETED
-	@echo -----------------------------------------
-	@echo If only tests ran, the build is already: up-to-date.
 
 build: clean $(PROGRAM_NAME) test
 
 # Phony targets execute even if target exists in file system.
-.PHONY: clean test debug vim push test_case main
+.PHONY: clean test edit debug vim push test_case main malloc_failure_driver
 clean:
 	@echo Cleaning...
 	@rm -f $(OBJECTS) $(PROGRAM_NAME)
@@ -62,12 +59,6 @@ workspace:
 	@touch $(PROGRAM_NAME).vim
 	@vim -S $(PROGRAM_NAME).vim
 
-push:	
-	@git add $(SRC)
-	@read -p "Enter commit message: " commit_message; \
-	git commit -m "$$commit_message"
-	@git push
-
 test_case:
 	@mkdir -p tests/
 	@touch tests/$(PROGRAM_NAME)
@@ -79,79 +70,92 @@ main:
 program: 
 	@vim $(PROGRAM_NAME).c
 
-edit: 
+edit:
 	@vim Makefile
 
+ASSERT_OUTPUT_IS_PASSES = ./ctest 
+ASSERT_OUTPUT_IS_FAILS= ./ctest_fail 
 
-TEST_OUTPUT_PASSES = ./ctest 
-TEST_OUTPUT_FAILS= ./ctest_fail 
-
-TEST_OUTPUT_TARGETS := $(shell grep -oP "^test_that.*?(?=:)" Makefile)
+ASSERT_OUTPUT_IS_TARGETS := $(shell grep -oP "^test_that.*?(?=:)" Makefile)
 DIVIDER = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
 
-define ARRANGE_INPUT
-sed -i.bak 's/Duplicated/$(1)/' $(DRIVER) ; \
+define SETUP_WITH_ARGUMENT
+sed -i.bak 's/Duplicated/$(2)/' $(1) ; \
 rm $(PROGRAM_NAME) ; \
-$(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME) ; \
-mv $(DRIVER).bak $(DRIVER)  
+$(CC) -g $(CC_FLAGS) $(1) $(PROGRAM_NAME).c -o $(PROGRAM_NAME)
 endef
 
-define PRINT
+define PRINT_TEST_NAME
 	 echo $(DIVIDER) ; \
 	 echo $(1)
 endef
 
-define TEST_OUTPUT
-	$(TEST_OUTPUT_PASSES) $(PROGRAM_NAME) $(1)
+define ASSERT_OUTPUT_IS
+	$(ASSERT_OUTPUT_IS_PASSES) $(PROGRAM_NAME) $(1)
 endef
 
-define TEST_OUTPUT_NOT
-	$(TEST_OUTPUT_FAILS) $(PROGRAM_NAME) $(1)
+define ASSERT_OUTPUT_NOT
+	$(ASSERT_OUTPUT_IS_FAILS) $(PROGRAM_NAME) $(1)
 endef
+
+define TEARDOWN_TEST_HARNESS
+	mv $(DRIVER).bak $(1)  
+endef
+
 
 list_tests:
-	@echo $(TEST_TARGETS)
+	@echo $(ASSERT_OUTPUT_IS_TARGETS)
 
-test:   clean $(PROGRAM_NAME) $(TEST_OUTPUT_TARGETS)
+test:   clean $(PROGRAM_NAME) $(ASSERT_OUTPUT_IS_TARGETS)
 
-test_that_passes_holberton_case:
-	@$(call PRINT,$@)
-	@$(call ARRANGE_INPUT,'Duplicated')
-	@$(call TEST_OUTPUT,'Duplicated')
+test_that_strdup_passes_example_case:
+	@$(call PRINT_TEST_NAME,$@)
+	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'Duplicated')
+	@$(call ASSERT_OUTPUT_IS,'Duplicated')
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
-test_that_duplicates_character:
-	@$(call PRINT,$@)
-	@$(call ARRANGE_INPUT,'a')
-	@$(call TEST_OUTPUT,'a')	
-
-test_that_duplicates_three_characters:
-	@$(call PRINT,$@)
-	@$(call ARRANGE_INPUT,'abc')
-	@$(call TEST_OUTPUT,'abc')	
-
-test_that_duplicates_number:
-	@$(call PRINT,$@)
-	@$(call ARRANGE_INPUT,'1')
-	@$(call TEST_OUTPUT,'1')
-
-test_that_allocates_memory:
-	@$(call PRINT,$@)
-	@$(call ARRANGE_INPUT,'Duplicated')
-	@$(call TEST_OUTPUT_NOT,'failed to allocate memory')
+test_that_strdup_duplicates_character:
+	@$(call PRINT_TEST_NAME,$@)
+	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'a')
+	@$(call ASSERT_OUTPUT_IS,'a')	
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 
-test_that_returns_null_when_size_equals_zero: null_driver
+test_that_strdup_duplicates_three_characters:
+	@$(call PRINT_TEST_NAME,$@)
+	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'abc')
+	@$(call ASSERT_OUTPUT_IS,'abc')	
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
+
+
+
+test_that_strdup_duplicates_number:
+	@$(call PRINT_TEST_NAME,$@)
+	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'1')
+	@$(call ASSERT_OUTPUT_IS,'1')
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
+
+
+test_that_strdup_allocates_memory:
+	@$(call PRINT_TEST_NAME,$@)
+	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'Duplicated')
+	@$(call ASSERT_OUTPUT_NOT,'failed to allocate memory')
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
+
+
+
+test_that_strdup_returns_null_when_size_equals_zero: null_driver
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo $@
 	@$(TEST_PASSES) $< 'Returns NULL when size is 0.'
 	@rm $<
 
-test_that_malloc_failure_handled: malloc_failure_driver
-	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo $@
-	@$(TEST_PASSES) $< 'Returns NULL when malloc fails.'
-	@rm $<
+test_that_strdup_allocates_memory:
+	@echo $(DIVIDER)
+	@echo "\n"$@
+	@$(ASSERT_OUTPUT_IS_FAILS) $(PROGRAM_NAME) 'failed to allocate memory'
+
 
 null_driver:
 	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -159,6 +163,6 @@ null_driver:
 	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
 
 malloc_failure_driver:
-	@echo "\n"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo Building $@...
-	@$(CC) -g $(CC_FLAGS) $@.c $(PROGRAM_NAME).c -o $@
+	@sed -i.bak '/int main/ivoid* malloc(size_t size) { return (NULL); }' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME).bk
+	@mv $(DRIVER).bak $(DRIVER)
