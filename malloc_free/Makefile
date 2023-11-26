@@ -40,7 +40,7 @@ $(PROGRAM_NAME): $(OBJECTS)
 	@$(CC) -g $(CFLAGS) -c $< -o $@
 
 
-build: clean $(PROGRAM_NAME) test
+build: clean $(PROGRAM_NAME)
 
 # Phony targets execute even if target exists in file system.
 .PHONY: clean test edit debug vim push test_case main malloc_failure_driver
@@ -79,7 +79,7 @@ TEST_TARGETS := $(shell grep -oP "^test_that.*?(?=:)" Makefile)
 DIVIDER = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
 
-define SETUP_WITH_ARGUMENT
+define ARRANGE_TEST_HARNESS
 sed -i.bak 's/Best /$(2)/' $(1) ; \
 sed -i 's/School/$(3)/' $(1) ; \
 rm $(PROGRAM_NAME) ; \
@@ -111,39 +111,39 @@ test:   clean $(PROGRAM_NAME) $(TEST_TARGETS)
 
 test_that_str_concat_passes_example_case:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),Best ,School)
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),Best ,School)
 	@$(call ASSERT_OUTPUT_IS,'Best School')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 test_that_str_concat_joins_empty_strings:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'','')
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'','')
 	@$(call ASSERT_OUTPUT_IS,'')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 
-test_that_str_concat_duplicates_character:
+test_that_str_concat_joins_characters:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),a,b)
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),a,b)
 	@$(call ASSERT_OUTPUT_IS,'ab')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
-test_that_str_concat_duplicates_three_characters:
+test_that_str_concat_joins_strings:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'abc', 'def')
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'abc','def')
 	@$(call ASSERT_OUTPUT_IS,'abcdef')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
-test_that_str_concat_duplicates_number:
+test_that_str_concat_joins_number:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'1')
-	@$(call ASSERT_OUTPUT_IS,'1')
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'1','2')
+	@$(call ASSERT_OUTPUT_IS,'12')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 
 test_that_str_concat_allocates_memory:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'Duplicated')
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'Duplicated')
 	@$(call ASSERT_OUTPUT_NOT,'failed')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
