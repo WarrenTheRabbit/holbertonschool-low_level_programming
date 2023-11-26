@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -pedantic 
 
 
-PROGRAM_NAME = 1-strdup
+PROGRAM_NAME = 2-str_concat
 TASK_NUMBER = $(shell echo $(PROGRAM_NAME) | sed 's/[^0-9]*\([0-9]\+\).*/\1/')
 DRIVER = $(TASK_NUMBER)-main.c
 
@@ -40,7 +40,7 @@ $(PROGRAM_NAME): $(OBJECTS)
 	@$(CC) -g $(CFLAGS) -c $< -o $@
 
 
-build: clean $(PROGRAM_NAME) test
+build: clean $(PROGRAM_NAME)
 
 # Phony targets execute even if target exists in file system.
 .PHONY: clean test edit debug vim push test_case main malloc_failure_driver
@@ -74,12 +74,14 @@ edit:
 ASSERT_OUTPUT_IS_PASSES = ./ctest 
 ASSERT_OUTPUT_IS_FAILS= ./ctest_fail 
 
-ASSERT_OUTPUT_IS_TARGETS := $(shell grep -oP "^test_that.*?(?=:)" Makefile)
+TEST_TARGETS := $(shell grep -oP "^test_that.*?(?=:)" Makefile)
+
 DIVIDER = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
 
-define SETUP_WITH_ARGUMENT
-sed -i.bak 's/Duplicated/$(2)/' $(1) ; \
+define ARRANGE_TEST_HARNESS
+sed -i.bak 's/Best /$(2)/' $(1) ; \
+sed -i 's/School/$(3)/' $(1) ; \
 rm $(PROGRAM_NAME) ; \
 $(CC) -g $(CC_FLAGS) $(1) $(PROGRAM_NAME).c -o $(PROGRAM_NAME)
 endef
@@ -105,37 +107,42 @@ endef
 list_tests:
 	@echo $(ASSERT_OUTPUT_IS_TARGETS)
 
-test:   clean $(PROGRAM_NAME) $(ASSERT_OUTPUT_IS_TARGETS)
+test:   clean $(PROGRAM_NAME) $(TEST_TARGETS)
 
-test_that_strdup_passes_example_case:
+test_that_str_concat_passes_example_case:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'Duplicated')
-	@$(call ASSERT_OUTPUT_IS,'Duplicated')
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),Best ,School)
+	@$(call ASSERT_OUTPUT_IS,'Best School')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
-test_that_strdup_duplicates_character:
+test_that_strdup_joins_empty_strings:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'a')
-	@$(call ASSERT_OUTPUT_IS,'a')	
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'','')
+	@$(call ASSERT_OUTPUT_IS,'')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
-test_that_strdup_duplicates_three_characters:
+test_that_str_concat_joins_characters:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'abc')
-	@$(call ASSERT_OUTPUT_IS,'abc')	
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),a,b)
+	@$(call ASSERT_OUTPUT_IS,'ab')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
-test_that_strdup_duplicates_number:
+test_that_str_concat_joins_strings:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'1')
-	@$(call ASSERT_OUTPUT_IS,'1')
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'abc','def')
+	@$(call ASSERT_OUTPUT_IS,'abcdef')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
+test_that_str_concat_joins_number:
+	@$(call PRINT_TEST_NAME,$@)
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'1','2')
+	@$(call ASSERT_OUTPUT_IS,'12')
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 test_that_strdup_allocates_memory:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call SETUP_WITH_ARGUMENT,$(DRIVER),'Duplicated')
-	@$(call ASSERT_OUTPUT_NOT,'failed to allocate memory')
+	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'Duplicated')
+	@$(call ASSERT_OUTPUT_NOT,'failed')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 malloc_failure_driver:
