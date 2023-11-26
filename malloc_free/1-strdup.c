@@ -2,9 +2,8 @@
 #include "main.h"
 
 /**
- * _strdup - task 0
- * @size:  unsigned int
- * @c: char
+ * _strdup - task 1
+ * @str:  pointer to char
  * Return: pointer to char
  */
 char *_strdup(char *str)
@@ -27,7 +26,7 @@ char *_strdup(char *str)
 		return (NULL);
 	}
 
-	while ( str[index] )
+	while (str[index])
 	{
 		ptr[index] = str[index];
 		index++;
