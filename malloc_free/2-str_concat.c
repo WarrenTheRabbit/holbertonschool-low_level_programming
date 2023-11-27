@@ -2,64 +2,40 @@
 
 
 /**
- * str_concat - concatenates two strings
- * @s1: pointer to char
- * @s2: pointer to char
- * Return: pointer to char
- */
+* str_concat - concatenates two strings
+* @s1: pointer to char
+* @s2: pointer to char
+* Return: pointer to char
+*/
 char *str_concat(char *s1, char *s2)
 {
 	size_t s1_length = 0;
 	size_t s2_length = 0;
-	size_t index = 0;
-	char *ptr, *start = NULL;
+	char *current = NULL;
+	char *start = NULL;
 
 	if (s1)
-	{
 		s1_length = _strlen(s1);
-	}
-
 
 	if (s2)
-	{
-		while (s2[index])
-		{
-			index++;
-			s2_length++;
-		}
+		s2_length = _strlen(s2);
 
-		index = 0;
-	}
+	start = current = malloc(s1_length + s2_length + 1);
 
-
-	start = ptr = malloc(s1_length + s2_length + 1);
-	
-	if (ptr == NULL)
-	{
+	if (current == NULL)
 		return (NULL);
-	}
 
 	if (s1)
 	{
 		while (*s1 != '\0')
-		{
-			*ptr++ = *s1++;
-		}
+			*current++ = *s1++;
 	}
-
-
 	if (s2)
 	{
 		while (*s2 != '\0')
-		{
-			*ptr++ = *s2++;
-		}
-
+			*current++ = *s2++;
 	}
 
-
-	*ptr = '\0';
-
-
+	*current = '\0';
 	return (start);
 }
