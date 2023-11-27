@@ -16,13 +16,7 @@ char *str_concat(char *s1, char *s2)
 
 	if (s1)
 	{
-		while (s1[index])
-		{
-			index++;
-			s1_length++;
-		}
-	
-		index = 0;
+		s1_length = _strlen(s1);
 	}
 
 

@@ -8,4 +8,5 @@
  	int **alloc_grid(int width, int height);
  	void free_grid(int **grid, int height);
  	int _putchar(char c);
+	int _strlen(char const *s); 
 #endif
