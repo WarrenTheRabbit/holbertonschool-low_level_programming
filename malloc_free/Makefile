@@ -8,8 +8,8 @@ DRIVER = $(TASK_NUMBER)-main.c
 
 
 # Define the object files needed for the final executable.
-OBJECTS = $(PROGRAM_NAME).o $(TASK_NUMBER)-main.o _putchar.o
-SRC = $(PROGRAM_NAME).c $(TASK_NUMBER)-main.c _putchar.c
+OBJECTS = $(PROGRAM_NAME).o $(TASK_NUMBER)-main.o _putchar.o strlen.o
+SRC = $(PROGRAM_NAME).c $(TASK_NUMBER)-main.c _putchar.c strlen.c
 DRIVER = $(TASK_NUMBER)-main.c
 
 
@@ -51,7 +51,6 @@ clean:
 
 debug:  $(PROGRAM_NAME)
 	@echo Debugging.. 
-	@gdb $< 
 
 workspace:
 	@touch $(PROGRAM_NAME).vim
@@ -80,8 +79,7 @@ DIVIDER = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
 
 define ARRANGE_TEST_HARNESS
-sed -i.bak 's/Best /$(2)/' $(1) ; \
-sed -i 's/School/$(3)/' $(1) ; \
+sed -i.bak '14s/(.*/($(2), $(3));' $(1) \
 rm $(PROGRAM_NAME) ; \
 $(CC) -g $(CC_FLAGS) $(1) $(PROGRAM_NAME).c -o $(PROGRAM_NAME)
 endef
@@ -111,41 +109,61 @@ test:   clean $(PROGRAM_NAME) $(TEST_TARGETS)
 
 test_that_str_concat_passes_example_case:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),Best ,School)
+	@sed -i.bak '14s/(.*/("Best ", "School");/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
 	@$(call ASSERT_OUTPUT_IS,'Best School')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 test_that_strdup_joins_empty_strings:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'','')
+	@sed -i.bak '14s/(.*/("", "");/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
 	@$(call ASSERT_OUTPUT_IS,'')
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
+
+test_that_str_concat_joins_when_first_argument_null:
+	@$(call PRINT_TEST_NAME,$@)
+	@sed -i.bak '14s/(.*/(NULL, "hello");/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
+	@$(call ASSERT_OUTPUT_IS,'hello')
+	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
+
+test_that_str_concat_joins_when_second_argument_null:
+	@$(call PRINT_TEST_NAME,$@)
+	@sed -i.bak '14s/(.*/("hello", NULL);/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
+	@$(call ASSERT_OUTPUT_IS,'hello')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 test_that_str_concat_joins_characters:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),a,b)
+	@sed -i.bak '14s/(.*/("a", "b");/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
 	@$(call ASSERT_OUTPUT_IS,'ab')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 test_that_str_concat_joins_strings:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'abc','def')
+	@sed -i.bak '14s/(.*/("abc", "def");/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
 	@$(call ASSERT_OUTPUT_IS,'abcdef')	
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 test_that_str_concat_joins_number:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'1','2')
+	@sed -i.bak '14s/(.*/("1", "2");/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
 	@$(call ASSERT_OUTPUT_IS,'12')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 test_that_strdup_allocates_memory:
 	@$(call PRINT_TEST_NAME,$@)
-	@$(call ARRANGE_TEST_HARNESS,$(DRIVER),'Duplicated')
+	@sed -i.bak '14s/(.*/("Best ", "School");/' $(DRIVER)
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME)
 	@$(call ASSERT_OUTPUT_NOT,'failed')
 	@$(call TEARDOWN_TEST_HARNESS,$(DRIVER))
 
 malloc_failure_driver:
 	@sed -i.bak '/int main/ivoid* malloc(size_t size) { return (NULL); }' $(DRIVER)
-	@$(CC) -g $(CC_FLAGS) $(DRIVER) $(PROGRAM_NAME).c -o $(PROGRAM_NAME).bk
+	@$(CC) -g $(CC_FLAGS) $(SRC) -o $(PROGRAM_NAME).bk
 	@mv $(DRIVER).bak $(DRIVER)
