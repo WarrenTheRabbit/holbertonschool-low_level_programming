@@ -1,6 +1,19 @@
 #include "lists.h"
 #include <stdio.h>
 
+int _print_digits(unsigned int number)
+{
+	unsigned int terminal_digit = number % 10;
+
+	if (number > 9)
+	{
+		_print_digits(number / 10);
+	}
+
+	_putchar(terminal_digit);
+}
+
+
 /**
  * print_list - print the elements in a linked list
  * @h: pointer to a constant list_t
@@ -15,7 +28,7 @@ size_t print_list(const list_t *h)
 	while (head)
 	{
 		_putchar('[');
-		_putchar('0' + head->len);
+		_putchar(head->len + '0');
 		_putchar(']');
 		_putchar(' ');
 
