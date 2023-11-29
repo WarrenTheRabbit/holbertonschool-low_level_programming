@@ -4,13 +4,16 @@
 	int _putchar(char c);
 	typedef struct list_t list_t;
 
-	
+
 
 	/**
 	 * struct list_t - description
 	 * @str: member
 	 * @len: member
-	 * next: member
+	 * @next: member
+	 *
+	 * Description: describes
+	 *
 	 */
 	struct list_t
 	{
