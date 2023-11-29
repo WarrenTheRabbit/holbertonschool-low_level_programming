@@ -40,6 +40,5 @@ size_t print_list(const list_t *h)
 		head = head->next;
 	}
 
-	_putchar('\n');
 	return (count);
 }
