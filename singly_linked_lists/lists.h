@@ -2,6 +2,10 @@
 #define HEADER
 	#include <stddef.h>
 	int _putchar(char c);
+
+	/**
+	 * list_t - short description
+	 */
 	typedef struct list_t list_t;
 
 
