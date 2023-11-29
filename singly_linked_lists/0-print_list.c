@@ -1,7 +1,7 @@
 #include "lists.h"
 #include <stdio.h>
 
-int _print_digits(unsigned int number)
+void _print_digits(unsigned int number)
 {
 	unsigned int terminal_digit = number % 10;
 
@@ -10,7 +10,7 @@ int _print_digits(unsigned int number)
 		_print_digits(number / 10);
 	}
 
-	_putchar(terminal_digit);
+	_putchar('0' + terminal_digit);
 }
 
 
@@ -28,7 +28,7 @@ size_t print_list(const list_t *h)
 	while (head)
 	{
 		_putchar('[');
-		_putchar(head->len + '0');
+		_print_digits(head->len);
 		_putchar(']');
 		_putchar(' ');
 
