@@ -1,6 +1,12 @@
 #include "lists.h"
 #include <stdio.h>
 
+
+/**
+ * _print_digits - print the elements in a linked list
+ * @number: pointer to a constant list_t
+ * Return: size_t (the number of nodes)
+ */
 void _print_digits(unsigned int number)
 {
 	unsigned int terminal_digit = number % 10;
