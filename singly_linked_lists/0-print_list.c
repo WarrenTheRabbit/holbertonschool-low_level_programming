@@ -46,7 +46,7 @@ size_t print_list(const list_t *h)
 				_putchar(*str++);
 			}
 		}
-		else 
+		else
 		{
 			_putchar('(');
 			_putchar('n');
