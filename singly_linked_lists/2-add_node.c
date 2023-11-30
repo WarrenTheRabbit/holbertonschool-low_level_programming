@@ -46,13 +46,12 @@ list_t *new_node(char *str, list_t *head)
 
 	if (!node)
 	{
-		free(node);
 		return (0);
 	}
 
 	if (!allocated_str)
 	{
-		free(allocated_str);
+		free(node);
 		return (0);
 	}
 
