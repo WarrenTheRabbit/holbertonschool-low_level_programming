@@ -42,7 +42,8 @@ list_t *new_node(char const *str, list_t *next)
 	node->str = allocated_str;
 	node->len = length;
 	node->next = next;
-	
+
+	return (node);	
 }
 
 
