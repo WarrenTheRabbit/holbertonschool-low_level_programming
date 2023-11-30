@@ -41,14 +41,23 @@ int _strlen(char const *str)
  */
 list_t *new_node(char *str, list_t *head)
 {
+	char *allocated_str = strdup(str);
 	list_t *node = malloc(sizeof(*node));
 
 	if (!node)
 	{
+		free(node);
 		return (0);
 	}
 
-	node->str = strdup(str);
+	if (!allocated_str)
+	{
+		free(allocated_str);
+		return (0);
+	}
+
+
+	node->str = allocated_str;
 	node->len = _strlen(node->str);
 	node->next = head;
 
