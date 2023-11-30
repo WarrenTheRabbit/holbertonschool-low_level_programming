@@ -17,6 +17,6 @@
 	int _putchar(char c);
 	list_t *add_node(list_t **head, char *str);
 	size_t print_list(const list_t *h);
-
+	list_t *add_node_end(list_t **head, char const *str);
 #endif
 
