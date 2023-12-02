@@ -55,7 +55,7 @@ int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 
 
 	/* Between two nodes */
-	if (current_node->next && (current_index == index))
+	if (current_node && current_node->next && (current_index == index))
 	{
 		current_node->prev->next = current_node->next;
 		current_node->next->prev = current_node->prev;
