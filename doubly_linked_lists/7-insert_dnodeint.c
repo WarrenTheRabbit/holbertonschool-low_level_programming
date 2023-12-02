@@ -15,6 +15,11 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	dlistint_t *current_node = *h;
 	unsigned int current_index = 0;
 
+	if (!new_node)
+	{
+		return (NULL);
+	}
+
 	new_node->n = n;
 	new_node->next = NULL;
 	new_node->prev = NULL;
@@ -73,6 +78,7 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	/* Insertion point not in range */
 	else
 	{
+		free(new_node);
 		return (NULL);
 	}
 }
