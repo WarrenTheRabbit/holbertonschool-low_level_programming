@@ -36,7 +36,7 @@ unsigned int _calculate_msb(int length)
 	return (value);
 }
 
-/*
+/**
  * _remove_leading_zeros - trims binary representation
  * @b: binary string
  * Return: trimmed binary representation
