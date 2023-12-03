@@ -58,15 +58,16 @@ unsigned int binary_to_uint(char const *b)
 	size_t length;
 	long bit_value;
 
+	if (b == NULL)
+	{
+		return (0);
+	}
+
 	b = _remove_leading_zeros(b);
 	length = _binlen((char *)b);
 	bit_value = _calculate_msb(length);
 
 
-	if (b == NULL)
-	{
-		return (0);
-	}
 
 	while (*b)
 	{
