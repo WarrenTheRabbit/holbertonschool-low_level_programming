@@ -13,7 +13,7 @@ unsigned long int is_nth_bit_set(unsigned long int number, unsigned int n)
 }
 
 /**
- * int get_bit - Gets the value of the bit at a given index.
+ * get_bit - Gets the value of the bit at a given index.
  * @n: number
  * @index: index
  * Return: 0 if not set else 1
