@@ -22,9 +22,13 @@ int clear_bit(unsigned long int *n, unsigned int index)
 	{
 		return (-1);
 	}
-	else
+	else if (*n & bit_value)
 	{
 		*n = *n - bit_value;
+		return (1);
+	}
+	else
+	{
 		return (1);
 	}
 }
