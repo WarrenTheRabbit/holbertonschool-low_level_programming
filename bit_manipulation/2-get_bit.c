@@ -1,4 +1,5 @@
 #include "main.h"
+#include <limits.h>
 
 /**
  * is_nth_bit_set - description
@@ -19,6 +20,11 @@ unsigned long int is_nth_bit_set(unsigned long int number, unsigned int n)
  */
 int get_bit(unsigned long int n, unsigned int index)
 {
+	if (index >= sizeof(n) * 8)
+	{
+		return (-1);
+	}
+
 	if (is_nth_bit_set(n, index))
 	{
 		return (1);
