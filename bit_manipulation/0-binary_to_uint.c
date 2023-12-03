@@ -26,7 +26,7 @@ size_t _binlen(char *b)
  */
 int _calculate_msb(int length)
 {
-	int value = 1;
+	long value = 1;
 
 	for (; (length - 1) > 0; length--)
 	{
@@ -34,6 +34,17 @@ int _calculate_msb(int length)
 	}
 
 	return (value);
+}
+
+
+char const *_remove_leading_zeros(char const *b)
+{
+	while (*b && *b != '1')
+	{
+		b++;
+	}
+	
+	return (b);
 }
 
 /**
@@ -44,8 +55,12 @@ int _calculate_msb(int length)
 unsigned int binary_to_uint(char const *b)
 {
 	unsigned int sum = 0;
-	size_t length = _binlen((char *)b);
-	unsigned int bit_value = _calculate_msb(length);
+	size_t length;
+	long bit_value;
+
+	b = _remove_leading_zeros(b);
+	length = _binlen((char *)b);
+	bit_value = _calculate_msb(length);
 
 
 	if (b == NULL)
