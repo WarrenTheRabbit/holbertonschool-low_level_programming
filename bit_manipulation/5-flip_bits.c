@@ -6,9 +6,9 @@
  * @n: number to count the bits of
  * Return: number of set bits
  */
-int count_set_bits(int n)
+unsigned int count_set_bits(unsigned long int n)
 {
-	int count = 0;
+	unsigned int count = 0;
 
 	while (n)
 	{
@@ -27,7 +27,7 @@ int count_set_bits(int n)
  */
 unsigned int flip_bits(unsigned long int n, unsigned long int m)
 {
-	int xor_result = n ^ m;
+	unsigned long int xor_result = n ^ m;
 
 	return (count_set_bits(xor_result));
 }
