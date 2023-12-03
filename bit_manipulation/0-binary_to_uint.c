@@ -24,7 +24,7 @@ size_t _binlen(char *b)
  * @length: length of binary number
  * Return: value of most significant bit
  */
-int _calculate_msb(int length)
+unsigned int _calculate_msb(int length)
 {
 	long value = 1;
 
@@ -36,14 +36,18 @@ int _calculate_msb(int length)
 	return (value);
 }
 
-
+/*
+ * _remove_leading_zeros - trims binary representation
+ * @b: binary string
+ * Return: trimmed binary representation
+ */
 char const *_remove_leading_zeros(char const *b)
 {
 	while (*b && *b != '1')
 	{
 		b++;
 	}
-	
+
 	return (b);
 }
 
