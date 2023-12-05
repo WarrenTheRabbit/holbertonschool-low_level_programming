@@ -39,11 +39,11 @@ ssize_t read_textfile(char const *filename, size_t letters)
 		free(buffer);
 		return (0);
 	}
-	
+
 	bytes_written = write(STDOUT_FILENO, buffer, bytes_read);
 
 	close(fd);
 
 	return (bytes_written);
-	
+
 }
