@@ -39,7 +39,7 @@ ssize_t read_textfile(char const *filename, size_t letters)
 		return (0);
 	}
 	
-	n = write(2, buffer, letters);
+	n = write(1, buffer, letters);
 
 	close(fd);
 
