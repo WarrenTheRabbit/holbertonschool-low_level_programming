@@ -10,7 +10,8 @@ ssize_t read_textfile(char const *filename, size_t letters)
 {
 	char *buffer;
 	ssize_t fd;
-	ssize_t n;
+	ssize_t bytes_read;
+	ssize_t bytes_written;
 
 	if (!filename)
 	{
@@ -31,18 +32,18 @@ ssize_t read_textfile(char const *filename, size_t letters)
 		return (0);
 	}
 
-	n = read(fd, buffer, letters);
+	bytes_read = read(fd, buffer, letters);
 
-	if (n == -1)
+	if (bytes_read == -1)
 	{
 		free(buffer);
 		return (0);
 	}
 	
-	n = write(1, buffer, letters);
+	bytes_written = write(1, buffer, bytes_read);
 
 	close(fd);
 
-	return (n);
+	return (bytes_written);
 	
 }
