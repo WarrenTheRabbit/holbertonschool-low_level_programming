@@ -38,8 +38,8 @@ ssize_t read_textfile(char const *filename, size_t letters)
 		free(buffer);
 		return (0);
 	}
-
-	printf("%s", buffer);
+	
+	n = write(2, buffer, letters);
 
 	close(fd);
 
