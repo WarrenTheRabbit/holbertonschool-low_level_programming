@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
 	while ((bytes_read = read(from_fd, buffer, 1024)) > 0)
 	{
-        	if (from_fd == -1)
+        	if (bytes_read== -1)
 	        {
 	                dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
                 	close(to_fd);
