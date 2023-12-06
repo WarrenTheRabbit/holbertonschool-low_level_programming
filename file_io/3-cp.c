@@ -13,15 +13,15 @@ int main(int argc, char **argv)
 	int to_fd, from_fd;
 	ssize_t bytes_read, bytes_written;
 	
-	file_from = argv[1];
-	file_to = argv[2];
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp %s %s\n", file_from, file_to);
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
 
+	file_from = argv[1];
+	file_to = argv[2];
 
 	to_fd = open(file_to, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
