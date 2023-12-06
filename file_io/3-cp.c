@@ -44,7 +44,15 @@ int main(int argc, char **argv)
 
 	while ((bytes_read = read(from_fd, buffer, 1024)) > 0)
 	{
+        	if (from_fd == -1)
+	        {
+	                dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
+                	close(to_fd);
+        	        exit(98);
+	        }
+
 		bytes_written = write(to_fd, buffer, bytes_read);
+
 		if (bytes_written != bytes_read) 
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
