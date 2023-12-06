@@ -37,9 +37,9 @@ int main(int argc, char **argv)
 
 	if (from_fd == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_from);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
 		close(to_fd);
-		exit(99);
+		exit(98);
 	}
 
 	while ((bytes_read = read(from_fd, buffer, 1024)) > 0)
@@ -55,8 +55,17 @@ int main(int argc, char **argv)
 
 	}
 
-	close(from_fd);
-	close(to_fd);
+	if (close(from_fd) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", from_fd);
+		exit(100);
+	}
+	
+	if (close(to_fd) == -1)
+	{                
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", from_fd);
+                exit(100);		
+	}
 
 	return (EXIT_SUCCESS);
 		
