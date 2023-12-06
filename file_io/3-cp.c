@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 
 	if (from_fd == -1)
 	{
-		dprintf(STDERR_FILENO, "Error1: Can't write to %s\n", file_from);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_from);
 		close(to_fd);
 		exit(99);
 	}
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 		bytes_written = write(to_fd, buffer, bytes_read);
 		if (bytes_written != bytes_read) 
 		{
-			dprintf(STDERR_FILENO, "Error2: Can't write to %s\n", file_to);
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
 			close(from_fd);
 			close(to_fd);
 			exit(99);
