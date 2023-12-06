@@ -57,5 +57,7 @@ int main(int argc, char **argv)
 
 	close(from_fd);
 	close(to_fd);
+
+	return (EXIT_SUCCESS);
 		
 }
