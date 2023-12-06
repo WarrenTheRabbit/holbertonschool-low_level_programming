@@ -44,12 +44,6 @@ int main(int argc, char **argv)
 
 	while ((bytes_read = read(from_fd, buffer, 1024)) > 0)
 	{
-        	if (bytes_read== -1)
-	        {
-	                dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
-                	close(to_fd);
-        	        exit(98);
-	        }
 
 		bytes_written = write(to_fd, buffer, bytes_read);
 
@@ -61,6 +55,14 @@ int main(int argc, char **argv)
 			exit(99);
 		}
 
+	}
+
+
+	if (bytes_read == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
+		close(to_fd);
+		exit(98);
 	}
 
 	if (close(from_fd) == -1)
