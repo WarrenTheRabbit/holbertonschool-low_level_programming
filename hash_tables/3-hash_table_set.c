@@ -69,7 +69,15 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 
 	if (ht->array[index])
 	{
-		prepend(&ht->array[index], node);
+		if (ht->array[index]->key == node->key)
+		{
+			node->next = ht->array[index]->next;
+			ht->array[index] = node;
+		}
+		else 
+		{
+			prepend(&ht->array[index], node);
+		}
 	}
 	else
 	{
