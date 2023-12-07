@@ -69,7 +69,7 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 
 	if (ht->array[index])
 	{
-		if (ht->array[index]->key == node->key)
+		if (!strcmp(ht->array[index]->key, node->key))
 		{
 			ht->array[index]->value = node->value;
 		}
