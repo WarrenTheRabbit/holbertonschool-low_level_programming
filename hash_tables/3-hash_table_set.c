@@ -32,14 +32,14 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 
 	if (!ht)
 	{
-		return (-1);
+		return (0);
 	}
 
 	node = malloc(sizeof(*node));
 
 	if (!node)
 	{
-		return (-1);
+		return (0);
 	}
 
 	key_copy = strdup(key);
@@ -47,7 +47,7 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 	if (!key_copy)
 	{
 		free(node);
-		return (-1);
+		return (0);
 	}
 
 	value_copy = strdup(value);
@@ -56,7 +56,7 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 	{
 		free(key_copy);
 		free(node);
-		return (-1);
+		return (0);
 	}
 
 
