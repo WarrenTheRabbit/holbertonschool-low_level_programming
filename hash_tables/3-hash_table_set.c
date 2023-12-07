@@ -30,6 +30,11 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 	char *key_copy;
 	char *value_copy;
 
+	if (!ht)
+	{
+		return (-1);
+	}
+
 	node = malloc(sizeof(*node));
 
 	if (!node)
@@ -41,6 +46,7 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 
 	if (!key_copy)
 	{
+		free(node);
 		return (-1);
 	}
 
@@ -48,6 +54,8 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 
 	if (!value_copy)
 	{
+		free(key_copy);
+		free(node);
 		return (-1);
 	}
 
