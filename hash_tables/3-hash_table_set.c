@@ -18,7 +18,7 @@ void prepend(hash_node_t **list, hash_node_t *node)
 
 /**
  * hash_table_set - adds an element to the hash table
- * @ht:
+ * @ht: hash table
  * @key: a key to be indexed to @ht
  * @value: a value to be stored at @key
  * Return: success message.
@@ -27,8 +27,7 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 {
 	unsigned long int index;
 	hash_node_t *node;
-	char *key_copy;
-	char *value_copy;
+	char *key_copy, *value_copy;
 
 	if (!ht)
 	{
@@ -84,6 +83,5 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 	}
 
 	return (1);
-
 
 }
