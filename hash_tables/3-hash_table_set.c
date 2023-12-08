@@ -1,18 +1,53 @@
 #include "hash_tables.h"
 
+
+
 /**
- * prepend - function
+ * prepend_node - function
  * @list: linked list
  * @node: node to prepend
- * Return: nothing
+ * Return: 1 on success, 0 on failure.
  */
-void prepend(hash_node_t **list, hash_node_t *node)
+int prepend_node(hash_node_t **list, hash_node_t *node)
 {
-	if (list != NULL)
+	if (list == NULL)
+		return (0);
+
+	node->next = *list;
+	*list = node;
+	return (1);
+}
+
+/**
+ * initialise_node - function
+ * @node: reference to node
+ * @key: key
+ * @value: value
+ * Return: 1 on success, 0 on failure.
+ */
+int initialise_node(hash_node_t **node, char const *key, char const *value)
+{
+	hash_node_t *new_node = malloc(sizeof(**node));
+
+	if (!new_node)
 	{
-		node->next = *list;
-		*list = node;
+		return (0);
 	}
+
+	new_node->key = strdup(key);
+	new_node->value = strdup(value);
+
+	if (!new_node->key || !new_node->value)
+	{
+		free(new_node->key);
+		free(new_node->value);
+		free(new_node);
+		return (0);
+	}
+
+	*node = new_node;
+
+	return (1);
 }
 
 
@@ -27,59 +62,29 @@ int hash_table_set(hash_table_t *ht, char const *key, char const *value)
 {
 	unsigned long int index;
 	hash_node_t *node;
-	char *key_copy, *value_copy;
 
-	if (!ht)
-	{
+	/*
+	 * Assert set operation's preconditions: a hash table exists and the key
+	 * is a non-empty string.
+	 */
+	if (!ht || !key || !*key)
 		return (0);
-	}
-
-	node = malloc(sizeof(*node));
-
-	if (!node)
-	{
-		return (0);
-	}
-
-	key_copy = strdup(key);
-
-	if (!key_copy)
-	{
-		free(node);
-		return (0);
-	}
-
-	value_copy = strdup(value);
-
-	if (!value_copy)
-	{
-		free(key_copy);
-		free(node);
-		return (0);
-	}
-
-
-	node->key = (char *) key_copy;
-	node->value = (char *) value_copy;
-	node->next = NULL;
-
 
 	index = key_index((unsigned char const *)key, ht->size);
 
-	if (ht->array[index])
+	/* Handle two cases: key exists already and key doesn't exist already */
+	if (ht->array[index] && strcmp(ht->array[index]->key, key) == 0)
 	{
-		if (!strcmp(ht->array[index]->key, node->key))
-		{
-			ht->array[index]->value = node->value;
-		}
-		else 
-		{
-			prepend(&ht->array[index], node);
-		}
+		/* Key exists already: update node. */
+		free(ht->array[index]->value);
+		ht->array[index]->value = strdup(value);
 	}
 	else
 	{
-		ht->array[index] = node;
+		/* Key does not exist already: insert node. */
+		if (!initialise_node(&node, key, value)
+		|| !prepend_node(&ht->array[index], node))
+			return (0);
 	}
 
 	return (1);
