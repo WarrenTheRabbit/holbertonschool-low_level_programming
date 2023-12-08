@@ -18,7 +18,6 @@ void hash_table_print(const hash_table_t *ht)
 	if (!ht)
 		return;
 	index = 0;
-	size = ht->size;
 	have_printed_an_item = FALSE;
 	printf("%s", "{");
 	for (index = 0; index < ht->size; index++)
